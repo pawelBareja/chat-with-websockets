@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,10 +19,17 @@
     "downlevelIteration": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "jsx": "react",
+    "jsx": "preserve",
     "experimentalDecorators": true,
-    "typeRoots": ["./typings", "./node_modules/@types"],
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ],
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "typings", "templates"]
+  "include": [
+    "src",
+    "typings",
+    "templates"
+  ]
 }
