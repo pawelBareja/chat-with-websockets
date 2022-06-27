@@ -48,13 +48,10 @@ const Chat = ({ myId }: { myId: any }) => {
 
   useEffect(() => {
     ws.onmessage = async (e) => {
-      const upload = await e.data.text();
-      console.log('parse', JSON.parse(upload));
-      // json.parse()
-      const splittedUpload = upload.split('"');
-      console.log(upload);
+      const upload = await e.data.text()
+      const { id, message } = JSON.parse(upload)
 
-      const newMessage = { id: splittedUpload[3], message: splittedUpload[7] };
+      const newMessage = { id, message };
       setMessages((messages) => [newMessage, ...messages]);
     };
   }, [ws.onmessage]);
