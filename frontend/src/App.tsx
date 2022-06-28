@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from './store/store'
+import { setLoginId } from './features/login'
 
 const App = () => {
+  const dispatch = useDispatch()
+  const loginId = useSelector((state: RootState) => state.login.id)
   const [userName, setUserName] = useState<string>('');
-  const [myId, setMyId] = useState<any>(undefined);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -12,16 +17,12 @@ const App = () => {
     setUserName(value);
   };
 
-  const handleClick = () => {
-    setMyId(userName);
-  };
-
   return (
     <>
-      {myId ? (
-        <Chat myId={myId} />
+      {loginId ? (
+        <Chat myId={loginId} />
       ) : (
-        <Login handleChange={handleChange} handleClick={handleClick} userName={userName} />
+        <Login handleChange={handleChange} handleClick={() => dispatch(setLoginId(userName))} userName={userName} />
       )}
     </>
   );
