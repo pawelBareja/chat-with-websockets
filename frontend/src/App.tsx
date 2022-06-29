@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from './store/store'
 import { setLoginId } from './features/login'
 
+
 const App = () => {
   const dispatch = useDispatch()
   const loginId = useSelector((state: RootState) => state.login.id)
