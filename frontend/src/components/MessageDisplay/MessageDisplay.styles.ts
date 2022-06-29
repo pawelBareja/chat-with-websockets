@@ -1,13 +1,13 @@
-import { blue } from '@mui/material/colors';
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 export const useMessageDisplayStyle = makeStyles(
-  () => ({
+  (theme: Theme) => ({
     wrapper: {
       width: '100%',
     },
     message: {
-      background: 'lightblue',
+      background: theme.palette.secondary.main,
       width: '200px',
       borderRadius: '4px',
       padding: '5px',
@@ -17,7 +17,7 @@ export const useMessageDisplayStyle = makeStyles(
       marginLeft: '-4px',
     },
     myMessage: {
-      background: 'lightpink',
+      background: theme.palette.accentColor.main,
       width: '200px',
       borderRadius: '4px',
       padding: '5px',

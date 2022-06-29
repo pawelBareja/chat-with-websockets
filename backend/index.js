@@ -1,31 +1,37 @@
-import { createServer } from "http";
-import staticHandler from "serve-handler";
-import ws, { WebSocketServer } from "ws";
+const express = require("express");
+const app = express();
+const http = require("http");
+const cors = require("cors");
+const { Server } = require("socket.io");
+app.use(cors());
 
-const server = createServer((req, res) => {
-  return staticHandler(req, res, { public: "public" });
+const server = http.createServer(app);
+const PUBLIC_ROOM = 'PUBLIC_ROOM'
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
 });
 
-const wss = new WebSocketServer({ server });
+io.on("connection", (socket) => {
+  socket.join(PUBLIC_ROOM)
 
-wss.on("connection", (client) => {
-  console.log("Client connected !");
-  client.on("message", (msg) => {
-    console.log(`Message:${msg}`);
-    broadcast(msg);
+  // socket.on("join_room", (data) => {
+  //   socket.join(data);
+  //   console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  // });
+
+  socket.on("send_message", (data) => {
+    socket.to(PUBLIC_ROOM).emit("receive_message", data);
   });
 
-  client.on("close", () => console.log("websocket closed"));
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
 });
 
-function broadcast(msg) {
-  for (const client of wss.clients) {
-    if (client.readyState === ws.OPEN) {
-      client.send(msg);
-    }
-  }
-}
-
-server.listen(process.argv[2] || 8080, () => {
-  console.log(`server listening...`);
+server.listen(3001, () => {
+  console.log("SERVER RUNNING");
 });
